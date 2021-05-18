@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "net.gddhy.j2meloader",
+  "variantName": "processOpenReleaseResources",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "versionCode": 89,
+      "versionName": "1.7.0-open",
+      "outputFile": "J2ME_Loader-1.7.0-open-release.apk"
+    }
+  ]
+}

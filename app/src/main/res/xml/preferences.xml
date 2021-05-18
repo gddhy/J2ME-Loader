@@ -45,10 +45,5 @@
         android:icon="@drawable/ic_setting_default"
         android:title="@string/pref_default_settings">
     </Preference>
-    <Preference
-        android:key="emulator_dir"
-        android:icon="@drawable/ic_setting_folder"
-        android:title="@string/pref_emulator_dir"
-        tools:summary="/sdcard/J2ME-Loader">
-    </Preference>
+
 </androidx.preference.PreferenceScreen>

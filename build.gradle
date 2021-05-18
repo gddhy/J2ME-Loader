@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
@@ -13,16 +13,16 @@ buildscript {
 }
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
         maven { url "https://jitpack.io" }
     }
 }
 
 ext {
-    buildToolsVersion = '29.0.2'
-    compileSdkVersion = 29
+    buildToolsVersion = '30.0.2'
+    compileSdkVersion = 30
 
-    minSdkVersion = 14
+    minSdkVersion = 19
     targetSdkVersion = 29
 }

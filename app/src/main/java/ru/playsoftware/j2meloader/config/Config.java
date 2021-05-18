@@ -18,7 +18,6 @@ package ru.playsoftware.j2meloader.config;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Environment;
 
@@ -26,8 +25,6 @@ import java.io.File;
 
 import javax.microedition.shell.MicroActivity;
 import javax.microedition.util.ContextHolder;
-
-import androidx.preference.PreferenceManager;
 
 import static ru.playsoftware.j2meloader.util.Constants.*;
 
@@ -53,22 +50,9 @@ public class Config {
 	private static String profilesDir;
 	private static String appDir;
 
-	private static final SharedPreferences.OnSharedPreferenceChangeListener sPrefListener =
-			(sharedPreferences, key) -> {
-				if (key.equals(PREF_EMULATOR_DIR)) {
-					initDirs(sharedPreferences.getString(key, emulatorDir));
-				}
-			};
-
 	static {
-		Context context = ContextHolder.getAppContext();
-		SCREENSHOTS_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-				+ "/" + APP_NAME;
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String path = preferences.getString(PREF_EMULATOR_DIR, null);
-		if (path == null) path = Environment.getExternalStorageDirectory() + "/" + APP_NAME;
-		initDirs(path);
-		preferences.registerOnSharedPreferenceChangeListener(sPrefListener);
+		SCREENSHOTS_DIR = new File(ContextHolder.getAppContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),"J2me").getPath();
+		initDirs(SCREENSHOTS_DIR);
 	}
 
 	public static String getEmulatorDir() {

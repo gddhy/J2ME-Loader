@@ -46,7 +46,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.nononsenseapps.filepicker.FilePickerActivity;
 import com.nononsenseapps.filepicker.Utils;
 
 import java.io.File;
@@ -63,6 +62,10 @@ import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.ListFragment;
+
+import net.gddhy.OpenJar2;
+import net.gddhy.WebBrowserActivity;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.SingleObserver;
@@ -77,8 +80,6 @@ import ru.playsoftware.j2meloader.config.Config;
 import ru.playsoftware.j2meloader.config.ConfigActivity;
 import ru.playsoftware.j2meloader.config.ProfilesActivity;
 import ru.playsoftware.j2meloader.donations.DonationsActivity;
-import ru.playsoftware.j2meloader.filepicker.FilteredFilePickerActivity;
-import ru.playsoftware.j2meloader.filepicker.FilteredFilePickerFragment;
 import ru.playsoftware.j2meloader.info.AboutDialogFragment;
 import ru.playsoftware.j2meloader.info.HelpDialogFragment;
 import ru.playsoftware.j2meloader.settings.SettingsActivity;
@@ -125,13 +126,7 @@ public class AppsListFragment extends ListFragment {
 		initDb();
 		FloatingActionButton fab = getActivity().findViewById(R.id.fab);
 		fab.setOnClickListener(v -> {
-			Intent i = new Intent(getActivity(), FilteredFilePickerActivity.class);
-			i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
-			i.putExtra(FilePickerActivity.EXTRA_SINGLE_CLICK, true);
-			i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
-			i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
-			i.putExtra(FilePickerActivity.EXTRA_START_PATH, FilteredFilePickerFragment.getLastPath());
-			startActivityForResult(i, REQUEST_FILE);
+			startActivity(new Intent(getActivity(), OpenJar2.class));
 		});
 	}
 
@@ -415,6 +410,8 @@ public class AppsListFragment extends ListFragment {
 			}
 		} else if (itemId == R.id.action_exit_app) {
 			requireActivity().finish();
+		} else if(itemId == R.id.action_web){
+			WebBrowserActivity.openBrowser(getActivity());
 		}
 		return super.onOptionsItemSelected(item);
 	}

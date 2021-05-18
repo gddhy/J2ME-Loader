@@ -17,7 +17,6 @@
 
 package ru.playsoftware.j2meloader;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -31,13 +30,13 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
+
+import net.gddhy.OpenJarFileActivity;
+
 import ru.playsoftware.j2meloader.applist.AppsListFragment;
 import ru.playsoftware.j2meloader.base.BaseActivity;
 import ru.playsoftware.j2meloader.config.Config;
@@ -63,14 +62,10 @@ public class MainActivity extends BaseActivity {
 			return;
 		}
 		sp = PreferenceManager.getDefaultSharedPreferences(this);
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-				!= PackageManager.PERMISSION_GRANTED) {
-			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-					REQUEST_PERMISSIONS);
-		} else {
-			setupActivity((intent.getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0
-					&& savedInstanceState == null && uri != null);
-		}
+
+		setupActivity((intent.getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0
+				&& savedInstanceState == null && uri != null);
+
 	}
 
 	private void setupActivity(boolean intentUri) {
@@ -100,19 +95,6 @@ public class MainActivity extends BaseActivity {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.container, appsListFragment).commitNowAllowingStateLoss();
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-										   @NonNull int[] grantResults) {
-		if (requestCode == REQUEST_PERMISSIONS) {
-			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				setupActivity(getIntent().getData() != null);
-			} else {
-				Toast.makeText(this, R.string.permission_request_failed, Toast.LENGTH_SHORT).show();
-				finish();
-			}
-		}
 	}
 
 	private boolean initFolders() {

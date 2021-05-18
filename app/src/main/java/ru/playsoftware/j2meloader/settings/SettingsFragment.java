@@ -39,7 +39,7 @@ import ru.playsoftware.j2meloader.filepicker.FilteredFilePickerActivity;
 import static ru.playsoftware.j2meloader.util.Constants.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
-	private Preference prefFolder;
+	//private Preference prefFolder;
 
 	@Override
 	public void onCreatePreferences(Bundle bundle, String s) {
@@ -49,11 +49,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 			startActivity(intent);
 			return true;
 		});
-		prefFolder = findPreference(PREF_EMULATOR_DIR);
-		prefFolder.setSummary(Config.getEmulatorDir());
-		prefFolder.setOnPreferenceClickListener(this::pickFolder);
+		//prefFolder = findPreference(PREF_EMULATOR_DIR);
+		//prefFolder.setSummary(Config.getEmulatorDir());
+		//prefFolder.setOnPreferenceClickListener(this::pickFolder);
 	}
 
+	/*
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 		if (requestCode == REQUEST_FILE && resultCode == Activity.RESULT_OK && data != null) {
@@ -62,7 +63,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 			applyChangeFolder(file);
 		}
 	}
-
 	private void applyChangeFolder(File file) {
 		if (!file.canWrite()) {
 			Toast.makeText(getContext(), R.string.error, Toast.LENGTH_SHORT).show();
@@ -84,5 +84,5 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 		i.putExtra(FilePickerActivity.EXTRA_START_PATH, Config.getEmulatorDir());
 		startActivityForResult(i, REQUEST_FILE);
 		return true;
-	}
+	}*/
 }
