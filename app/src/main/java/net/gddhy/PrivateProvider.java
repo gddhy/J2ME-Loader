@@ -83,7 +83,7 @@ public class PrivateProvider extends DocumentsProvider {
     public boolean onCreate() {
         Log.v(TAG, "onCreate");
 
-        mBaseDir = new File(Config.getEmulatorDir());
+        mBaseDir = new File(Config.getEmulatorDir()).getParentFile();
 
         return true;
     }

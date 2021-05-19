@@ -46,4 +46,11 @@
         android:title="@string/pref_default_settings">
     </Preference>
 
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:icon="@drawable/ic_swap"
+        android:key="pref_switch_brw"
+        android:summary="使用内置浏览器处理jar浏览器打开请求"
+        android:title="启用内置浏览器" />
+
 </androidx.preference.PreferenceScreen>

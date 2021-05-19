@@ -34,12 +34,11 @@ public class AboutDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		StringBuilder message = new StringBuilder().append(getText(R.string.version))
 				.append(BuildConfig.VERSION_NAME)
-				.append(getText(R.string.about_email))
+				.append("<BR>原项目:")
 				.append(getText(R.string.about_github))
-				.append(getText(R.string.about_4pda))
-				.append(getText(R.string.about_xda))
-				.append(getText(R.string.about_crowdin))
-				.append(getText(R.string.about_copyright));
+				.append(getText(R.string.about_copyright))
+				.append("<BR><BR>当前版本由 回忆 基于原项目制作")
+				.append("<BR>在线下载由 小蟀Java下载站 提供");
 		TextView tv = new TextView(getActivity());
 		tv.setMovementMethod(LinkMovementMethod.getInstance());
 		tv.setText(Html.fromHtml(message.toString()));

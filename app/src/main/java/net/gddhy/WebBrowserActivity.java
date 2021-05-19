@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -63,7 +64,15 @@ public class WebBrowserActivity extends BaseActivity {
             finish();
         } else {
             initView();
-            webView.loadUrl(url);
+            String type = url.substring(url.lastIndexOf(".")+1).toLowerCase();
+            if(type.equals("jar")||type.equals("apk")){
+                progressDialog.show();
+                String name = url.substring(url.lastIndexOf("/")+1).toLowerCase();
+                getSupportActionBar().setTitle(name);
+                downFile(url,true);
+            } else {
+                webView.loadUrl(url);
+            }
         }
     }
 
@@ -121,11 +130,22 @@ public class WebBrowserActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 0, 0, "在浏览器打开");
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case 0:
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(webView.getUrl())));
                 break;
             default:
         }
@@ -157,10 +177,10 @@ public class WebBrowserActivity extends BaseActivity {
         intent.setDataAndType(uri, "application/vnd.android.package-archive");
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             if(!context.getPackageManager().canRequestPackageInstalls()){
+                Toast.makeText(context,"请先授权后重试",Toast.LENGTH_LONG).show();
                 Uri packageUri = Uri.parse("package:" + context.getPackageName());
                 Intent intent2 = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,packageUri);
                 context.startActivity(intent2);
-                Toast.makeText(context,"缺少必要权限",Toast.LENGTH_LONG).show();
                 return;
             }
         }
@@ -168,6 +188,10 @@ public class WebBrowserActivity extends BaseActivity {
     }
 
     private void downFile(final String file_Url){
+        downFile(file_Url,false);
+    }
+
+    private void downFile(final String file_Url,boolean isAutoFinish){
         final File tmpFile = new File(new File( new File(Config.getEmulatorDir()),"Download"),file_Url.substring(file_Url.lastIndexOf("/")+1));
         new Thread(new Runnable() {
             @Override
@@ -190,6 +214,9 @@ public class WebBrowserActivity extends BaseActivity {
                                 //TODO
                                 installApk(WebBrowserActivity.this,tmpFile);
                             }
+                            if(isAutoFinish){
+                                finish();
+                            }
                         }
                     });
                 } catch (IOException e) {
@@ -199,6 +226,9 @@ public class WebBrowserActivity extends BaseActivity {
                         public void run() {
                             progressDialog.dismiss();
                             Toast.makeText(WebBrowserActivity.this,"下载失败",Toast.LENGTH_LONG).show();
+                            if(isAutoFinish){
+                                finish();
+                            }
                         }
                     });
                 }

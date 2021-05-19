@@ -19,7 +19,6 @@ package javax.microedition.shell;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -145,7 +144,8 @@ public class MicroLoader {
 		System.setProperty("microedition.locale", defaultLocale.getLanguage()
 				+ (country.length() == 2 ? "-" + country : ""));
 		// FIXME: 21.10.2020 Config.getDataDir() may be in different storage
-		final String primaryStoragePath = Environment.getExternalStorageDirectory().getPath();
+		//final String primaryStoragePath = Environment.getExternalStorageDirectory().getPath();
+		final String primaryStoragePath = new File(Config.getEmulatorDir()).getParent();
 		String uri = "file:///c:" + Config.getDataDir().substring(primaryStoragePath.length()) + appDirName;
 		System.setProperty("fileconn.dir.cache", uri + "/cache");
 		System.setProperty("fileconn.dir.private", uri + "/private");

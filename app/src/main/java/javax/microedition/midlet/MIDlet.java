@@ -19,7 +19,12 @@ package javax.microedition.midlet;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+
+import androidx.preference.PreferenceManager;
+
+import net.gddhy.WebBrowserActivity;
 
 import java.util.Map;
 
@@ -82,7 +87,13 @@ public abstract class MIDlet {
 	public boolean platformRequest(String url)
 			throws ConnectionNotFoundException {
 		try {
-			ContextHolder.getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ContextHolder.getActivity());
+			boolean b = preferences.getBoolean("pref_switch_brw",true);
+			if(b){
+				WebBrowserActivity.openBrowser(ContextHolder.getActivity(),url);
+			} else {
+				ContextHolder.getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+			}
 		} catch (ActivityNotFoundException e) {
 			throw new ConnectionNotFoundException();
 		}
